@@ -19,7 +19,8 @@ Descripción: Actividad 1 - Hospital
 #include <stdlib.h>
 
 typedef struct {
-    int id, enUso;
+    int id;
+    int enUso;
 } cama;
 
 typedef struct {
@@ -30,41 +31,52 @@ typedef struct {
     cama c;
 } paciente;
 
-int main(int argc, const char * argv[]){
-    paciente * hospital, * p, * total;
-    cama * c, * camas;
-    int limiteDeCamas = 5, opcion, cantidad, contadorCamas;
+int main(){
+    paciente * hospital;
+    paciente * p;
+    paciente * totalHospital;
+    cama * camas;
+    cama * c;
+    cama * totalCamas;
+    int limiteDeCamas = 3;
+    int opcion;
+    int cantidad; 
+    int contadorCamas;
 
     hospital = (paciente *) malloc(sizeof(paciente) * limiteDeCamas);
     camas = (cama *) malloc(sizeof(cama) * limiteDeCamas);
-    total = hospital + limiteDeCamas;
+    totalHospital = hospital + limiteDeCamas;
+    totalCamas = camas + limiteDeCamas;
 
-    printf("A continuación, proporcione los datos de los primeros 3 pacientes: ");
+    printf("\nA continuación, proporcione los datos de los primeros 3 pacientes: ");
 
-    for (int i = 0; i < 3; ++i){
-        printf("\n--Paciente #%d--", i + 1);
+    p = hospital;
+    c = camas;
 
-        for (p = hospital; p < total; ++p){
-            p->nombre = (char *) malloc(sizeof(char) * 25);
-            printf("Proporcione el nombre del paciente: ");
-            scanf("%s", p->nombre);
+    while ((p < totalHospital) && (c < totalCamas)){
+        p->nombre = (char *) malloc(sizeof(char) * 25);
+        printf("\nProporcione el nombre del paciente: ");
+        scanf("%s", p->nombre);
 
-            p->apellidos = (char *) malloc(sizeof(char) * 25);
-            printf("Proporcione el apellido(s) del paciente: ");
-            scanf("%[˄\n]", p->apellidos);
+        p->apellidos = (char *) malloc(sizeof(char) * 25);
+        printf("Proporcione el apellido(s) del paciente: ");
+        scanf("%[˄\n]", p->apellidos);
 
-            printf("Proporcione la edad del paciente: ");
-            scanf("%d", &p->nombre);
+        printf("Proporcione la edad del paciente: ");
+        scanf("%d", &p->edad);
 
-            p->telefono = (char *) malloc(sizeof(char) * 15);
-            printf("Proporcione el numero telefónico del paciente: ");
-            scanf("%s", p->telefono);
+        p->telefono = (char *) malloc(sizeof(char) * 15);
+        printf("Proporcione el numero telefónico del paciente: ");
+        scanf("%s", p->telefono);
 
-            contadorCamas++;
-            c->id = contadorCamas;
+        contadorCamas++;
+        c->id = contadorCamas;
+        printf("Cama: %d", c->id);
 
-            c->enUso = 1;
-        }
+        c->enUso = 1;
+
+        ++p;
+        ++c;
     }
 
     printf("\n--Hospital General 'Dr. Sergio Hernandez Castillo'-- \n1. Agregar pacientes \n2. Checar que paciente está usando que cama \n3. Dar de alta a un paciente \n4. Ver listado de pacientes \n5. Numeros de camas disponibles y usadas \n0. Salir");
@@ -84,8 +96,76 @@ int main(int argc, const char * argv[]){
                 scanf("%d", &cantidad);
             }
 
-            if (cantidad == 1){
-                
+            if (cantidad + contadorCamas >= limiteDeCamas){
+                hospital = (paciente *) realloc(hospital, sizeof(paciente) * (limiteDeCamas + 5));
+                camas = (cama *) realloc(cama, sizeof(cama) * (limiteDeCamas + 5));
+                totalHospital = hospital + contadorCamas + cantidad;
+                totalCamas = camas + contadorCamas + cantidad;
+
+                p = hospital + contadorCamas;
+                c = camas + contadorCamas;
+
+                while ((p < totalHospital) && (c < totalCamas)){
+                    p->nombre = (char *) malloc(sizeof(char) * 25);
+                    printf("\nProporcione el nombre del paciente: ");
+                    scanf("%s", p->nombre);
+
+                    p->apellidos = (char *) malloc(sizeof(char) * 25);
+                    printf("Proporcione el apellido(s) del paciente: ");
+                    scanf("%[˄\n]", p->apellidos);
+
+                    printf("Proporcione la edad del paciente: ");
+                    scanf("%d", &p->edad);
+
+                    p->telefono = (char *) malloc(sizeof(char) * 15);
+                    printf("Proporcione el numero telefónico del paciente: ");
+                    scanf("%s", p->telefono);
+
+                    contadorCamas++;
+                    c->id = contadorCamas;
+                    printf("Cama: %d", c->id);
+
+                    c->enUso = 1;
+
+                    ++p;
+                    ++c;
+                }
+
+                limiteDeCamas = contadorCamas + cantidad + (5 - cantidad);
+            }
+
+            if (cantidad + contadorCamas < limiteDeCamas){
+                totalHospital = hospital + contadorCamas + cantidad;
+                totalCamas = camas + contadorCamas + cantidad;
+
+                p = hospital + contadorCamas;
+                c = camas + contadorCamas;
+
+                while ((p < totalHospital) && (c < totalCamas)){
+                    p->nombre = (char *) malloc(sizeof(char) * 25);
+                    printf("\nProporcione el nombre del paciente: ");
+                    scanf("%s", p->nombre);
+
+                    p->apellidos = (char *) malloc(sizeof(char) * 25);
+                    printf("Proporcione el apellido(s) del paciente: ");
+                    scanf("%[˄\n]", p->apellidos);
+
+                    printf("Proporcione la edad del paciente: ");
+                    scanf("%d", &p->edad);
+
+                    p->telefono = (char *) malloc(sizeof(char) * 15);
+                    printf("Proporcione el numero telefónico del paciente: ");
+                    scanf("%s", p->telefono);
+
+                    contadorCamas++;
+                    c->id = contadorCamas;
+                    printf("Cama: %d", c->id);
+
+                    c->enUso = 1;
+
+                    ++p;
+                    ++c;
+                }
             }
 
         break;
