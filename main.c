@@ -1,5 +1,5 @@
 /*
-1. El hospital cuenta con 10 camas. 
+1. El hospital cuenta con 5 camas. 
 2. Se llena el hospital hasta 5 camas con un for al iniciar el programa.
 3. Abrir un switch:
 3a. Incorpora mas pacientes (los que se requieran), si se llenan las camas, hay
@@ -15,7 +15,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define N 5;
+typedef struct {
+    int id;
+    bool enUso = false;
+} cama;
 
 typedef struct {
     char * nombre;
@@ -25,52 +28,85 @@ typedef struct {
     cama c;
 } paciente;
 
-typedef struct {
-    int id;
-    bool enUso = false;
-} cama;
-
-typedef void (* menu_t)();
-
-void agregarPacientes();
-void checarCama();
-void darDeAlta();
-void listaDePacientes();
-void disponiblesUsadas();
-
 int main(int argc, const char * argv[]){
-    paciente * pacientes, * ptr, * total;
-    int limiteDeCamas = 20, opcion = -1;
+    paciente * hospital, * p, * total;
+    cama * c;
+    int limiteDeCamas = 5, opcion, cantidad, contadorCamas;
 
-    pacientes = (paciente *) malloc(sizeof(paciente) * limiteDeCamas);
-    total = pacientes + limiteDeCamas;
+    hospital = (paciente *) malloc(sizeof(paciente) * limiteDeCamas);
+    camas = (cama *) malloc(sizeof(cama) * limiteDeCamas);
+    total = hospital + limiteDeCamas;
 
-    menu_t * opciones = (menu_t *) malloc(sizeof(menu_t) * N);
+    printf("A continuación, proporcione los datos de los primeros 3 
+        pacientes: ");
 
-    *opciones = agregarPacientes;
-    *(opciones + 1) = checarCama;
-    *(opciones + 2) = darDeAlta;
-    *(opciones + 3) = listaDePacientes;
-    *(opciones + 4) = disponiblesUsadas;
+    for (int i = 0; i < 3; ++i){
+        printf("\n--Paciente #%d--", i + 1);
 
-    printf("--Hospital General 'Dr. Sergio Hernandez Castillo'-- 
+        for (p = hospital; p < total; ++p){
+            p->nombre = (char *) malloc(sizeof(char) * 25);
+            printf("Proporcione el nombre del paciente: ");
+            scanf("%s", p->nombre);
+
+            p->apellidos = (char *) malloc(sizeof(char) * 25);
+            printf("Proporcione el apellido(s) del paciente: ");
+            scanf("%[˄\n]", p->apellidos);
+
+            printf("Proporcione la edad del paciente: ");
+            scanf("%d", &p->nombre);
+
+            p->telefono = (char *) malloc(sizeof(char) * 15);
+            printf("Proporcione el numero telefónico del paciente: ");
+            scanf("%s", p->telefono);
+
+            contadorCamas++;
+            c->id = contadorCamas;
+
+            c->enUso = true;
+        }
+    }
+
+    printf("\n--Hospital General 'Dr. Sergio Hernandez Castillo'-- 
         \n1. Agregar pacientes 
         \n2. Checar que paciente está usando que cama 
         \n3. Dar de alta a un paciente 
         \n4. Ver listado de pacientes 
         \n5. Numeros de camas disponibles y usadas 
         \n0. Salir");
+    
+    printf("\nElija una opción: ");
+    scanf("%d", &opcion);
 
-    while (opcion != 0){
-        printf("\nSelecciona tu opción: ");
-        scanf("%d", &opcion);
+    switch (opcion){
+        case 1:
+            printf("Proporcione la cantidad de pacientes que desea agregar: ");
+            scanf("%d", &cantidad);
 
-        if ((opcion > 0) && (opcion <= N)){
-            (*(opciones[opcion - 1]))();
-        } 
+            while (cantidad < 1){
+                printf("ERROR: Solo se puede agregar un numero positivo de 
+                    pacientes.");
+
+                printf("Proporcione la cantidad de pacientes que desea 
+                    agregar: ");
+                scanf("%d", &cantidad);
+            }
+
+            for (int i = 0; i < cantidad; i++){
+
+            }
+
+        break;
     }
-
-    free(opciones);
+    
+    switch (expression)
+    {
+    case /* constant-expression */:
+        /* code */
+        break;
+    
+    default:
+        break;
+    }
 
     return 0;
 }
