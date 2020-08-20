@@ -203,6 +203,36 @@ int main(){
             }
 
         break;
+
+        case 3:
+            printf("\nProporcione el ID de la cama con el paciente que desea dar de alta: ");
+            scanf("%d", &opcionCama);
+
+            p = hospital;
+            c = camas;
+
+            while ((p < totalHospital) && (c < totalCamas)){
+                if (opcionCama == c->id){
+                    printf("El paciente %s %s fue dado de alta. Su cama ahora está desocupada.", p->nombre, p->apellido);
+
+                    free(p->nombre);
+                    free(p->apellido);
+                    free(p->telefono);
+                    
+                    hospital = (paciente *) realloc(hospital, sizeof(paciente) * (limiteDeCamas - 1));
+
+                    c->enUso = 0;
+                }
+
+                else if (opcionCama != c->id){
+                    printf("\nNo existe una cama con ese ID.");
+                }
+
+                ++p;
+                ++c;
+            }
+
+        break;
     }
 
     return 0;
