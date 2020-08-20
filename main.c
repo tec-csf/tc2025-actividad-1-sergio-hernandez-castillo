@@ -25,10 +25,9 @@ typedef struct {
 
 typedef struct {
     char * nombre;
-    char * apellidos;
+    char * apellido;
     int edad;
     char * telefono;
-    cama c;
 } paciente;
 
 int main(){
@@ -41,7 +40,8 @@ int main(){
     int limiteDeCamas = 3;
     int opcion;
     int cantidad; 
-    int contadorCamas;
+    int contadorCamas = 0;
+    int opcionCama;
 
     hospital = (paciente *) malloc(sizeof(paciente) * limiteDeCamas);
     camas = (cama *) malloc(sizeof(cama) * limiteDeCamas);
@@ -58,9 +58,9 @@ int main(){
         printf("\nProporcione el nombre del paciente: ");
         scanf("%s", p->nombre);
 
-        p->apellidos = (char *) malloc(sizeof(char) * 25);
-        printf("Proporcione el apellido(s) del paciente: ");
-        scanf("%[˄\n]", p->apellidos);
+        p->apellido = (char *) malloc(sizeof(char) * 25);
+        printf("Proporcione el apellido del paciente: ");
+        scanf("%[˄\n]", p->apellido);
 
         printf("Proporcione la edad del paciente: ");
         scanf("%d", &p->edad);
@@ -98,7 +98,7 @@ int main(){
 
             if (cantidad + contadorCamas >= limiteDeCamas){
                 hospital = (paciente *) realloc(hospital, sizeof(paciente) * (limiteDeCamas + 5));
-                camas = (cama *) realloc(cama, sizeof(cama) * (limiteDeCamas + 5));
+                camas = (cama *) realloc(camas, sizeof(cama) * (limiteDeCamas + 5));
                 totalHospital = hospital + contadorCamas + cantidad;
                 totalCamas = camas + contadorCamas + cantidad;
 
@@ -110,9 +110,9 @@ int main(){
                     printf("\nProporcione el nombre del paciente: ");
                     scanf("%s", p->nombre);
 
-                    p->apellidos = (char *) malloc(sizeof(char) * 25);
-                    printf("Proporcione el apellido(s) del paciente: ");
-                    scanf("%[˄\n]", p->apellidos);
+                    p->apellido = (char *) malloc(sizeof(char) * 25);
+                    printf("Proporcione el apellido del paciente: ");
+                    scanf("%s", p->apellido);
 
                     printf("Proporcione la edad del paciente: ");
                     scanf("%d", &p->edad);
@@ -146,9 +146,9 @@ int main(){
                     printf("\nProporcione el nombre del paciente: ");
                     scanf("%s", p->nombre);
 
-                    p->apellidos = (char *) malloc(sizeof(char) * 25);
-                    printf("Proporcione el apellido(s) del paciente: ");
-                    scanf("%[˄\n]", p->apellidos);
+                    p->apellido = (char *) malloc(sizeof(char) * 25);
+                    printf("Proporcione el apellido del paciente: ");
+                    scanf("%s", p->apellido);
 
                     printf("Proporcione la edad del paciente: ");
                     scanf("%d", &p->edad);
@@ -166,6 +166,40 @@ int main(){
                     ++p;
                     ++c;
                 }
+            }
+
+        break;
+
+        case 2:
+            printf("La lista de camas es la siguiente: \n");
+
+            for (c = camas; c < totalCamas; ++c){
+                printf("Cama #%d", c->id);
+            }
+
+            printf("\nSeleccione una cama: ");
+            scanf("%d", &opcionCama);
+
+            p = hospital;
+            c = camas;
+
+            while ((p < totalHospital) && (c < totalCamas)){
+                if (opcionCama == c->id){
+                    if (c->enUso == 1){
+                        printf("\nLa cama está siendo ocupada por: %s %s", p->nombre, p->apellido);
+                    }
+
+                    else {
+                        printf("\nLa cama está desocupada.");
+                    }
+                }
+
+                else if (opcionCama != c->id){
+                    printf("\nNo existe una cama con ese ID.");
+                }
+
+                ++p;
+                ++c;
             }
 
         break;
