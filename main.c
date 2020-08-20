@@ -1,4 +1,8 @@
 /*
+Autór: Sergio Hernandez Castillo
+Matrícula: A01025210
+Descripción: Actividad 1 - Hospital
+
 1. El hospital cuenta con 5 camas. 
 2. Se llena el hospital hasta 5 camas con un for al iniciar el programa.
 3. Abrir un switch:
@@ -13,11 +17,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 typedef struct {
-    int id;
-    bool enUso = false;
+    int id, enUso;
 } cama;
 
 typedef struct {
@@ -30,15 +32,14 @@ typedef struct {
 
 int main(int argc, const char * argv[]){
     paciente * hospital, * p, * total;
-    cama * c;
+    cama * c, * camas;
     int limiteDeCamas = 5, opcion, cantidad, contadorCamas;
 
     hospital = (paciente *) malloc(sizeof(paciente) * limiteDeCamas);
     camas = (cama *) malloc(sizeof(cama) * limiteDeCamas);
     total = hospital + limiteDeCamas;
 
-    printf("A continuación, proporcione los datos de los primeros 3 
-        pacientes: ");
+    printf("A continuación, proporcione los datos de los primeros 3 pacientes: ");
 
     for (int i = 0; i < 3; ++i){
         printf("\n--Paciente #%d--", i + 1);
@@ -62,17 +63,11 @@ int main(int argc, const char * argv[]){
             contadorCamas++;
             c->id = contadorCamas;
 
-            c->enUso = true;
+            c->enUso = 1;
         }
     }
 
-    printf("\n--Hospital General 'Dr. Sergio Hernandez Castillo'-- 
-        \n1. Agregar pacientes 
-        \n2. Checar que paciente está usando que cama 
-        \n3. Dar de alta a un paciente 
-        \n4. Ver listado de pacientes 
-        \n5. Numeros de camas disponibles y usadas 
-        \n0. Salir");
+    printf("\n--Hospital General 'Dr. Sergio Hernandez Castillo'-- \n1. Agregar pacientes \n2. Checar que paciente está usando que cama \n3. Dar de alta a un paciente \n4. Ver listado de pacientes \n5. Numeros de camas disponibles y usadas \n0. Salir");
     
     printf("\nElija una opción: ");
     scanf("%d", &opcion);
@@ -83,28 +78,16 @@ int main(int argc, const char * argv[]){
             scanf("%d", &cantidad);
 
             while (cantidad < 1){
-                printf("ERROR: Solo se puede agregar un numero positivo de 
-                    pacientes.");
+                printf("ERROR: Solo se puede agregar un numero positivo de pacientes.");
 
-                printf("Proporcione la cantidad de pacientes que desea 
-                    agregar: ");
+                printf("Proporcione la cantidad de pacientes que desea agregar: ");
                 scanf("%d", &cantidad);
             }
 
-            for (int i = 0; i < cantidad; i++){
-
+            if (cantidad == 1){
+                
             }
 
-        break;
-    }
-    
-    switch (expression)
-    {
-    case /* constant-expression */:
-        /* code */
-        break;
-    
-    default:
         break;
     }
 
