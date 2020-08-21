@@ -2,26 +2,10 @@
 Autór: Sergio Hernandez Castillo
 Matrícula: A01025210
 Descripción: Actividad 1 - Hospital
-
-1. El hospital cuenta con 5 camas. 
-2. Se llena el hospital hasta 5 camas con un for al iniciar el programa.
-3. Abrir un switch:
-3a. Incorpora mas pacientes (los que se requieran), si se llenan las camas, hay
-    que hacer espacio. 
-3b. Ver que paciente esta asignado a una cama, o si esta libre. 
-3c. Dar de alta a un paciente por el numero de cama (se borra ese paciente del 
-    hospital y su cama queda libre).
-3d. Mostrar la lista de todos los pacientes del hospital. 
-3e. Conocer cuantas camas disponibles hay y cuantas estan ocupadas. 
 */
 
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct {
-    int id;
-    int enUso;
-} cama;
 
 typedef struct {
     char * nombre;
@@ -30,210 +14,213 @@ typedef struct {
     char * telefono;
 } paciente;
 
-int main(){
-    paciente * hospital;
+typedef struct {
+    int id;
+    int enUso;
     paciente * p;
-    paciente * totalHospital;
+} cama;
+
+int main(){
     cama * camas;
-    cama * c;
     cama * totalCamas;
     int limiteDeCamas = 3;
     int opcion;
-    int cantidad; 
     int contadorCamas = 0;
     int opcionCama;
+    int camasOcupadas = 0;
+    int camasDesocupadas = 0;
+    int menu = 0;
 
-    hospital = (paciente *) malloc(sizeof(paciente) * limiteDeCamas);
     camas = (cama *) malloc(sizeof(cama) * limiteDeCamas);
-    totalHospital = hospital + limiteDeCamas;
-    totalCamas = camas + limiteDeCamas;
+    totalCamas = camas + limiteDeCamas; 
 
     printf("\nA continuación, proporcione los datos de los primeros 3 pacientes: ");
 
-    p = hospital;
-    c = camas;
+    for (cama * c = camas; c < totalCamas; ++c){
+        paciente * pac = (paciente *) malloc(sizeof(paciente));
 
-    while ((p < totalHospital) && (c < totalCamas)){
-        p->nombre = (char *) malloc(sizeof(char) * 25);
+        pac->nombre = (char *) malloc(sizeof(char) * 25);
         printf("\nProporcione el nombre del paciente: ");
-        scanf("%s", p->nombre);
+        scanf("%s", pac->nombre);
 
-        p->apellido = (char *) malloc(sizeof(char) * 25);
+        pac->apellido = (char *) malloc(sizeof(char) * 25);
         printf("Proporcione el apellido del paciente: ");
-        scanf("%[˄\n]", p->apellido);
+        scanf("%s", pac->apellido);
 
         printf("Proporcione la edad del paciente: ");
-        scanf("%d", &p->edad);
+        scanf("%d", &pac->edad);
 
-        p->telefono = (char *) malloc(sizeof(char) * 15);
+        pac->telefono = (char *) malloc(sizeof(char) * 15);
         printf("Proporcione el numero telefónico del paciente: ");
-        scanf("%s", p->telefono);
+        scanf("%s", pac->telefono);
 
         contadorCamas++;
         c->id = contadorCamas;
         printf("Cama: %d", c->id);
 
         c->enUso = 1;
-
-        ++p;
-        ++c;
+        c->p = pac;
     }
 
-    printf("\n--Hospital General 'Dr. Sergio Hernandez Castillo'-- \n1. Agregar pacientes \n2. Checar que paciente está usando que cama \n3. Dar de alta a un paciente \n4. Ver listado de pacientes \n5. Numeros de camas disponibles y usadas \n0. Salir");
+    printf("\n--Hospital General 'Dr. Sergio Hernandez Castillo'-- \n1. Agregar pacientes \n2. Checar que paciente está usando que cama \n3. Dar de alta a un paciente \n4. Ver listado de pacientes \n5. Numeros de camas disponibles y usadas \n6. Salir");
     
     printf("\nElija una opción: ");
     scanf("%d", &opcion);
 
-    switch (opcion){
-        case 1:
-            printf("Proporcione la cantidad de pacientes que desea agregar: ");
-            scanf("%d", &cantidad);
+    while (menu != -99){
+        switch (opcion){
+            case 1:
+                if (contadorCamas == limiteDeCamas){
+                    limiteDeCamas += 5;
+                    camas = (cama *) realloc(camas, sizeof(cama) * limiteDeCamas);
+                    totalCamas = camas + limiteDeCamas;
 
-            while (cantidad < 1){
-                printf("ERROR: Solo se puede agregar un numero positivo de pacientes.");
+                    cama * c = camas + contadorCamas;
+                    paciente * pac = (paciente *) malloc(sizeof(paciente));
 
-                printf("Proporcione la cantidad de pacientes que desea agregar: ");
-                scanf("%d", &cantidad);
-            }
-
-            if (cantidad + contadorCamas >= limiteDeCamas){
-                hospital = (paciente *) realloc(hospital, sizeof(paciente) * (limiteDeCamas + 5));
-                camas = (cama *) realloc(camas, sizeof(cama) * (limiteDeCamas + 5));
-                totalHospital = hospital + contadorCamas + cantidad;
-                totalCamas = camas + contadorCamas + cantidad;
-
-                p = hospital + contadorCamas;
-                c = camas + contadorCamas;
-
-                while ((p < totalHospital) && (c < totalCamas)){
-                    p->nombre = (char *) malloc(sizeof(char) * 25);
+                    pac->nombre = (char *) malloc(sizeof(char) * 25);
                     printf("\nProporcione el nombre del paciente: ");
-                    scanf("%s", p->nombre);
+                    scanf("%s", pac->nombre);
 
-                    p->apellido = (char *) malloc(sizeof(char) * 25);
+                    pac->apellido = (char *) malloc(sizeof(char) * 25);
                     printf("Proporcione el apellido del paciente: ");
-                    scanf("%s", p->apellido);
+                    scanf("%s", pac->apellido);
 
                     printf("Proporcione la edad del paciente: ");
-                    scanf("%d", &p->edad);
+                    scanf("%d", &pac->edad);
 
-                    p->telefono = (char *) malloc(sizeof(char) * 15);
+                    pac->telefono = (char *) malloc(sizeof(char) * 15);
                     printf("Proporcione el numero telefónico del paciente: ");
-                    scanf("%s", p->telefono);
+                    scanf("%s", pac->telefono);
 
                     contadorCamas++;
                     c->id = contadorCamas;
                     printf("Cama: %d", c->id);
 
                     c->enUso = 1;
-
-                    ++p;
-                    ++c;
+                    c->p = pac;
                 }
 
-                limiteDeCamas = contadorCamas + cantidad + (5 - cantidad);
-            }
+                else if (contadorCamas < limiteDeCamas){
+                    for (cama * c = camas; c < totalCamas; ++c){
+                        if (c->enUso == 0){
+                            paciente * pac = (paciente *) malloc(sizeof(paciente));
 
-            if (cantidad + contadorCamas < limiteDeCamas){
-                totalHospital = hospital + contadorCamas + cantidad;
-                totalCamas = camas + contadorCamas + cantidad;
+                            pac->nombre = (char *) malloc(sizeof(char) * 25);
+                            printf("\nProporcione el nombre del paciente: ");
+                            scanf("%s", pac->nombre);
 
-                p = hospital + contadorCamas;
-                c = camas + contadorCamas;
+                            pac->apellido = (char *) malloc(sizeof(char) * 25);
+                            printf("Proporcione el apellido del paciente: ");
+                            scanf("%s", pac->apellido);
 
-                while ((p < totalHospital) && (c < totalCamas)){
-                    p->nombre = (char *) malloc(sizeof(char) * 25);
-                    printf("\nProporcione el nombre del paciente: ");
-                    scanf("%s", p->nombre);
+                            printf("Proporcione la edad del paciente: ");
+                            scanf("%d", &pac->edad);
 
-                    p->apellido = (char *) malloc(sizeof(char) * 25);
-                    printf("Proporcione el apellido del paciente: ");
-                    scanf("%s", p->apellido);
+                            pac->telefono = (char *) malloc(sizeof(char) * 15);
+                            printf("Proporcione el numero telefónico del paciente: ");
+                            scanf("%s", pac->telefono);
 
-                    printf("Proporcione la edad del paciente: ");
-                    scanf("%d", &p->edad);
+                            contadorCamas++;
+                            c->id = contadorCamas;
+                            printf("Cama: %d", c->id);
 
-                    p->telefono = (char *) malloc(sizeof(char) * 15);
-                    printf("Proporcione el numero telefónico del paciente: ");
-                    scanf("%s", p->telefono);
-
-                    contadorCamas++;
-                    c->id = contadorCamas;
-                    printf("Cama: %d", c->id);
-
-                    c->enUso = 1;
-
-                    ++p;
-                    ++c;
-                }
-            }
-
-        break;
-
-        case 2:
-            printf("La lista de camas es la siguiente: \n");
-
-            for (c = camas; c < totalCamas; ++c){
-                printf("Cama #%d", c->id);
-            }
-
-            printf("\nSeleccione una cama: ");
-            scanf("%d", &opcionCama);
-
-            p = hospital;
-            c = camas;
-
-            while ((p < totalHospital) && (c < totalCamas)){
-                if (opcionCama == c->id){
-                    if (c->enUso == 1){
-                        printf("\nLa cama está siendo ocupada por: %s %s", p->nombre, p->apellido);
-                    }
-
-                    else {
-                        printf("\nLa cama está desocupada.");
+                            c->enUso = 1;
+                            c->p = pac;
+                        }
                     }
                 }
+            break;
 
-                else if (opcionCama != c->id){
-                    printf("\nNo existe una cama con ese ID.");
+            case 2:
+                printf("La lista de camas es la siguiente: \n");
+
+                for (cama * c = camas; c < totalCamas; ++c){
+                    printf("Cama #%d", c->id);
                 }
 
-                ++p;
-                ++c;
-            }
+                printf("\nSeleccione una cama: ");
+                scanf("%d", &opcionCama);
 
-        break;
+                for (cama * c = camas; c < totalCamas; ++c){
+                    if (opcionCama == c->id){
+                        if (c->enUso == 1){
+                            printf("\nLa cama está siendo ocupada por: %s %s", c->p->nombre, c->p->apellido);
+                        }
 
-        case 3:
-            printf("\nProporcione el ID de la cama con el paciente que desea dar de alta: ");
-            scanf("%d", &opcionCama);
+                        else {
+                            printf("\nLa cama está desocupada.");
+                        }
+                    }
 
-            p = hospital;
-            c = camas;
+                    else if (opcionCama != c->id){
+                        printf("\nNo existe una cama con ese ID.");
+                    }
+                }
+            break;
 
-            while ((p < totalHospital) && (c < totalCamas)){
-                if (opcionCama == c->id){
-                    printf("El paciente %s %s fue dado de alta. Su cama ahora está desocupada.", p->nombre, p->apellido);
+            case 3:
+                printf("\nProporcione el ID de la cama con el paciente que desea dar de alta: ");
+                scanf("%d", &opcionCama);
 
-                    free(p->nombre);
-                    free(p->apellido);
-                    free(p->telefono);
-                    
-                    hospital = (paciente *) realloc(hospital, sizeof(paciente) * (limiteDeCamas - 1));
+                for (cama * c = camas; c < totalCamas; ++c){
+                    if (opcionCama == c->id){
+                        free(c->p->nombre);
+                        free(c->p->apellido);
+                        free(c->p->telefono);
+                        free(c->p);
 
-                    c->enUso = 0;
+                        c->enUso = 0;
+
+                        printf("El paciente %s %s fue dado de alta. Su cama ahora está desocupada.", c->p->nombre, c->p->apellido);
+                    }
+
+                    else if (opcionCama != c->id){
+                        printf("\nNo existe una cama con ese ID.");
+                    }
+                }
+            break;
+
+            case 4:
+                for (cama * c = camas; c < totalCamas; ++c){
+                    printf("\nNombre y apellido: %s %s \nEdad: %d \nTeléfono: %s \nCama #%d", c->p->nombre, c->p->apellido, c->p->edad, c->p->telefono, c->id);
+                }
+            break;
+
+            case 5:
+                for (cama * c = camas; c < totalCamas; ++c){
+                    if (c->id == 0){
+                        camasDesocupadas++;
+                    }
+
+                    else if (c->id == 1){
+                        camasOcupadas++;
+                    }
                 }
 
-                else if (opcionCama != c->id){
-                    printf("\nNo existe una cama con ese ID.");
+                printf("\nCamas desocupadas: %d", camasDesocupadas);
+                printf("\nCamas ocupadas: %d", camasOcupadas);
+            break;
+
+            case 6:
+                for (cama * c = camas; c < totalCamas; ++c){
+                    free(c->p->nombre);
+                    free(c->p->apellido);
+                    free(c->p->telefono);
+                    free(c->p);
                 }
 
-                ++p;
-                ++c;
-            }
+                free(camas);
 
-        break;
+                menu == -99;
+            break;
+
+            default:
+                printf("\nElija una opción válida: ");
+                scanf("%d", &opcion);
+            break;
+        }
     }
-
+    
     return 0;
 }
